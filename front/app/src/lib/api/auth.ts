@@ -1,9 +1,9 @@
 import client from "lib/api/client"
 import Cookies from "js-cookie"
-import { SignUpData, SignInData } from "interfaces/index"
+import { SignUpFormData, SignInData } from "interfaces/index"
 
 // サインアップ（新規アカウント作成）
-export const signUp = (data: SignUpData) => {
+export const signUp = (data: SignUpFormData) => {
   return client.post("auth", data)
 }
 
@@ -15,7 +15,7 @@ export const signIn = (data: SignInData)  => {
 // サインアウト（ログアウト）
 export const signOut = () => {
   return client.delete("auth/sign_out", { headers: {
-    "access-token": Cookies.get("_client")!,
+    "access-token": Cookies.get("_access_token")!,
     "client": Cookies.get("_client")!,
     "uid": Cookies.get("_uid")!
   }})  

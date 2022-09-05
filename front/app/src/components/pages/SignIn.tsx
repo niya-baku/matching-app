@@ -17,9 +17,11 @@ import { signIn } from "lib/api/auth"
 import { SignInData } from "interfaces/index"
 
 const useStyles = makeStyles((theme: Theme) => ({
+  container: {
+    marginTop: theme.spacing(6)
+  },
   submitBtn: {
     paddingTop: theme.spacing(2),
-    textAlign: "right",
     flexGrow: 1,
     textTransform: "none"
   },
@@ -28,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   card: {
     padding: theme.spacing(2),
-    maxWidth: 400
+    maxWidth: 340
   },
   box: {
     paddingTop: "2rem"
@@ -70,8 +72,9 @@ const SignIn: React.FC = () => {
         setIsSignedIn(true)
         setCurrentUser(res.data.data)
 
-        history.push("/")
-
+        history.push("/home")
+        setEmail("")
+        setPassword("")
         console.log("Signed in successfully!")
       } else {
         setAlertMessageOpen(true)
@@ -95,38 +98,36 @@ const SignIn: React.FC = () => {
               label="メールアドレス"
               value={email}
               margin="dense"
-              onChange={event => setEmail(event.target.value)}
-            />
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}/>
             <TextField
               variant="outlined"
               required
               fullWidth
               label="パスワード"
               type="password"
-              placeholder="6文字以上"
+              placeholder="最低6文字以上"
               value={password}
               margin="dense"
               autoComplete="current-password"
-              onChange={event => setPassword(event.target.value)}
-            />
-            <Box className={classes.submitBtn} >
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}/>
+            <div style={{ textAlign: "right"}} >
               <Button
                 type="submit"
                 variant="outlined"
                 color="primary"
-                disabled={!email || !password ? true : false}
-                onClick={handleSubmit}
-              >
+                disabled={!email || !password ? true : false} // 空欄があった場合はボタンを押せないように
+                className={classes.submitBtn}
+                onClick={handleSubmit}>
                 送信
               </Button>
-            </Box>
+            </div>
             <Box textAlign="center" className={classes.box}>
               <Typography variant="body2">
                 まだアカウントをお持ちでない方は
                 <Link to="/signup" className={classes.link}>
                   こちら
                 </Link>
-                 から作成してください。
+                から作成してください。
               </Typography>
             </Box>
           </CardContent>
